@@ -1,4 +1,4 @@
-import { Model, Types } from "mongoose";
+import { Model } from "mongoose";
 
 export type UserName = {
   firstName: string;
@@ -17,17 +17,10 @@ export type IAdmin = {
   gender?: "male" | "female";
   permanentAddress?: string;
   presentAddress?: string;
-  designation: string;
 };
 
-export type AdminModel = Model<IAdmin, Record<string, unknown>>;
+interface AdminModel extends Model<IAdmin> {
+  findAll(): Promise<IAdmin[]>;
+}
 
-export type IAdminFilters = {
-  searchTerm?: string;
-  id?: string;
-  email?: string;
-  contactNo?: string;
-  emergencyContactNo?: string;
-  gender?: "male" | "female";
-  designation?: string;
-};
+export { AdminModel };
