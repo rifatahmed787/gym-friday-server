@@ -23,7 +23,7 @@ const registerUser: RequestHandler = catchAsync(
     sendResponse<IRegisterUser>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Student created successfully!",
+      message: "user created successfully!",
       data: result,
     });
   }

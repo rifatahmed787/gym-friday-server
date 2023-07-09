@@ -19,8 +19,12 @@ const registerUser = async (
   const { userName, password, email } = user;
 
   // Check if the required fields are provided
-  if (!userName || !password || !email) {
-    throw new Error("Username, password, and email are required.");
+  if (!userName) {
+    throw new Error("Username is required.");
+  } else if (!email) {
+    throw new Error("Email is required.");
+  } else if (!password) {
+    throw new Error("Password is required.");
   }
 
   // Check if the user already exists
