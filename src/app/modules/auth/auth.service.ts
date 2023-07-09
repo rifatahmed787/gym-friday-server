@@ -130,10 +130,6 @@ const changePassword = async (
 ): Promise<void> => {
   const { oldPassword, newPassword } = payload;
 
-  // // checking is user exist
-  // const isUserExist = await User.isUserExist(user?.userId);
-
-  //alternative way
   const isUserExist = await User.findOne({ id: user?.userId }).select(
     "+password"
   );
@@ -143,17 +139,19 @@ const changePassword = async (
   }
 
   // checking old password
-  if (
-    isUserExist.password &&
-    !(await User.isPasswordMatched(oldPassword, isUserExist.password))
-  ) {
+  const isPasswordMatched = await bcrypt.compare(
+    oldPassword,
+    isUserExist.password
+  );
+  if (!isPasswordMatched) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Old Password is incorrect");
   }
 
-  isUserExist.password = newPassword;
+  const hashedNewPassword = await bcrypt.hash(newPassword, 5);
+  isUserExist.password = hashedNewPassword;
 
   // updating using save()
-  isUserExist.save();
+  await isUserExist.save();
 };
 
 export const AuthService = {

@@ -84,9 +84,23 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const logout = async (req: Request, res: Response) => {
+  res.clearCookie("accessToken", {
+    sameSite: "none",
+    secure: true,
+  });
+
+  sendResponse<ILoginUserResponse>(res, {
+    statusCode: 200,
+    success: true,
+    message: "User has been logged out.",
+  });
+};
+
 export const AuthController = {
   registerUser,
   loginUser,
   refreshToken,
   changePassword,
+  logout,
 };

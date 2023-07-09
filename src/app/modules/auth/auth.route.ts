@@ -24,4 +24,6 @@ router.post(
   AuthController.changePassword
 );
 
+router.post("/logout", AuthController.logout);
+
 export const AuthRoutes = router;
